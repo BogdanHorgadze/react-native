@@ -52,7 +52,6 @@ const data = [
 
 function DoctorsPage(){
 
-
     const renderDoctors =  () => {
         return data.map((item,i) => {
             return (

@@ -5,18 +5,19 @@ import {
     StyleSheet,
     TextInput,
     CheckBox,
-    Image
+    Image,
+    Button
 } from 'react-native'
 import GradientButton  from 'react-native-gradient-buttons'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-
-function LoginPage(){
-
+function LoginPage({ navigation }){
 
     const [check,setCheck] = useState(false)
 
     return (
-        <View>
+        <View style={{marginHorizontal:15}}>
             <Text style={styles.title}>Sign Up</Text>
              <View style={styles.inputBlock}>
                 <TextInput
@@ -42,16 +43,21 @@ function LoginPage(){
                      <Text style={{marginTop:5, color:'#a9abad'}}>Forget Password?</Text>
                  </View>
              </View>
-             <View>
-                 <GradientButton
-                    style={{ marginTop: 30 }}
+             <View style={{marginTop:10}}>
+                 {/* <GradientButton
                     text="Sign Up"
                     gradientBegin="#19769f"
                     gradientEnd="#34d7a6"
                     height={40}
                     textStyle={{ fontSize: 17 }}
                     radius={4}
-                 />
+                    onPress={() => navigation.navigate('Doctors')}
+                 /> */}
+                 <Button
+                    title="Sign up"
+                    color="#34d7a6"
+                    onPress={() => navigation.navigate('Doctors')}
+                />
              </View>
              <View style={{flexDirection:'row',justifyContent:'center',marginTop:15}}>
                  <Text style={{color:'#989b9d',fontSize:17}}>Or</Text>
@@ -78,7 +84,7 @@ function LoginPage(){
 
 const styles = StyleSheet.create({
     title : {
-        marginTop: 100,
+        marginTop: 50,
         color : '#1d759c',
         fontSize: 30
     },
