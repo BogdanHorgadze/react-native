@@ -84,7 +84,7 @@ function LoginPage({ navigation }){
 
 const styles = StyleSheet.create({
     title : {
-        marginTop: 50,
+        marginTop: 100,
         color : '#1d759c',
         fontSize: 30
     },

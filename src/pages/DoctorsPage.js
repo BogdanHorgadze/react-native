@@ -6,6 +6,8 @@ import {
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const data = [
     {
@@ -50,7 +52,7 @@ const data = [
     }
 ]
 
-function DoctorsPage(){
+function DoctorsPage({ navigation }){
 
     const renderDoctors =  () => {
         return data.map((item,i) => {
@@ -81,7 +83,7 @@ function DoctorsPage(){
         <View style={styles.container}>
             <View style={styles.top}>
                 <View>
-                    <AntDesign name="left" size={24} color="white" />
+                    <AntDesign name="left" size={24} color="white" onPress={()=> navigation.navigate('Login')}/>
                 </View>
                 <View>
                     <Text style={{color:'white',fontSize:20}}>Doctor</Text>
