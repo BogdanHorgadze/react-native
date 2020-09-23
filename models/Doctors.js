@@ -1,27 +1,34 @@
-const fs = require('fs')
-const path = require('path')
+const Sequelize = require('sequelize')
+const sequelize = require('../utils/database')
 
-class Doctors {
-    constructor(){
 
+const doctors = sequelize.define('Doctors',{
+    id:{
+        primaryKey : true,
+        autoIncrement:true,
+        allowNull:false,
+        type: Sequelize.INTEGER
+    },
+    rate:{
+        allowNull:false,
+        type: Sequelize.INTEGER
+    },
+    distance:{
+        allowNull:false,
+        type: Sequelize.STRING
+    },
+    name:{
+        allowNull:false,
+        type: Sequelize.STRING
+    },
+    profession:{
+        allowNull:false,
+        type: Sequelize.STRING
+    },
+    location:{
+        allowNull:false,
+        type: Sequelize.STRING
     }
+})
 
-    static find (){
-        return new Promise((resolve,reject)=> {
-            fs.readFile(
-                path.join(__dirname,'..','db','db.json'),
-                'utf-8',
-                (err,content)=>{
-                    if(err){
-                        reject(err)
-                    }
-                    else{
-                        resolve(JSON.parse(content))
-                    }
-                }
-            )
-        })
-    }
-}
-
-module.exports = Doctors
+module.exports = doctors

@@ -11,6 +11,8 @@ import { StyleSheet } from 'react-native';
 import DoctorsPage from './src/pages/DoctorsPage';
 import LoginPage from './src/pages/LoginPage';
 
+
+
 const store = createStore(rootReducer,applyMiddleware(thunk))
 const Stack = createStackNavigator();
 

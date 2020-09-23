@@ -5,7 +5,7 @@ const Doctors = require('../models/Doctors')
 
 router.get('/', async(req,res)=>{
     try{
-        const data = await Doctors.find()
+        const data = await Doctors.findAll()
         res.json(data)
     }catch(e){
         console.log(e)
