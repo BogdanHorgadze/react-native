@@ -8,25 +8,26 @@ import {
     Image,
     Button
 } from 'react-native'
-import axios from 'axios'
+
 
 function LoginPage({ navigation }){
 
     const [check,setCheck] = useState(false)
 
 
-    const [data,setData] = useState('3')
+    // const [data,setData] = useState('3')
 
-    const sumbitData = async () => {
-        const res = await  axios.get('https://jsonplaceholder.typicode.com/todos/1')
-        setData(JSON.stringify(res.data))
-    }
+    // const sumbitData = async () => {
+    //     const res = await  axios.get('http://localhost:5000/api/doctors')
+    //     setData(JSON.stringify(res.data))
+    //     console.log(res.data)
+    // }
 
 
     return (
         <View style={{marginHorizontal:15}}>
             <Text style={styles.title}>Sign Up</Text>
-            <Text>{data}</Text>
+            {/* <Text>{data}</Text> */}
              <View style={styles.inputBlock}>
                 <TextInput
                     style={styles.input}

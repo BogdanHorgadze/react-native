@@ -12,8 +12,12 @@ import { Feather } from '@expo/vector-icons';
 import {getDataThunk} from '../store/actions/action'
 
 
+
 function DoctorsPage({ navigation , doctorsData , dispatch }){
 
+    useEffect(()=>{
+        dispatch(getDataThunk())
+    },[])
 
     const renderDoctors =  () => {
         if(doctorsData.length){
