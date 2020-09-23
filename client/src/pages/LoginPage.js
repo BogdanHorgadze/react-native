@@ -14,20 +14,9 @@ function LoginPage({ navigation }){
 
     const [check,setCheck] = useState(false)
 
-
-    // const [data,setData] = useState('3')
-
-    // const sumbitData = async () => {
-    //     const res = await  axios.get('http://localhost:5000/api/doctors')
-    //     setData(JSON.stringify(res.data))
-    //     console.log(res.data)
-    // }
-
-
     return (
         <View style={{marginHorizontal:15}}>
             <Text style={styles.title}>Sign Up</Text>
-            {/* <Text>{data}</Text> */}
              <View style={styles.inputBlock}>
                 <TextInput
                     style={styles.input}
@@ -38,7 +27,6 @@ function LoginPage({ navigation }){
                     style={styles.input}
                     placeholder='Password' 
                     autoCapitalize='none'
-                    onChangeText={()=> sumbitData()}
                 />
              </View>
              <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:20}}>
