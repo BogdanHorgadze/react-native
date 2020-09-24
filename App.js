@@ -5,6 +5,7 @@ const PORT = 5000
 const sequelize = require('./utils/database')
 
 app.use(cors())
+app.use(express.json())
 app.use('/api/doctors', require('./routes/doctors.route'))
 
 async function start (){

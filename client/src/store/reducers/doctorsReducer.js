@@ -1,5 +1,6 @@
 const initialState = {
-    doctorsData : []
+    doctorsData : [],
+    message : ''
 }
 
 const doctorsReducer = (state = initialState , action) => {
@@ -8,6 +9,11 @@ const doctorsReducer = (state = initialState , action) => {
         return{
             ...state,
             doctorsData : action.payload
+        }
+        case 'MESSAGE':
+        return {
+            ...state,
+            message : action.payload
         }
         default :
         return state
