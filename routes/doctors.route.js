@@ -17,7 +17,7 @@ router.get('/', async(req,res)=>{
 router.post('/', async(req,res)=>{
     try{
         const {name , prof , rate} = req.body
-        const data = await doctors.create({
+        const data = await Doctors.create({
            name,
            profession:prof,
            rate,
@@ -28,6 +28,21 @@ router.post('/', async(req,res)=>{
     }catch(e){
         console.log(e)
         res.json({message:'error'})
+    }
+})
+
+router.delete('/:id',async(req,res)=> {
+    try{
+        const data = await Doctors.findAll({
+            where : {
+                id: +req.params.id
+            }
+        })
+        await data[0].destroy()
+        const info = await doctors.findAll()
+        res.json(info)
+    }catch(e){
+        console.log(e)
     }
 })
 

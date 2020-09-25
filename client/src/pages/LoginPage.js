@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 
+
 function LoginPage({ navigation }){
 
     const [check,setCheck] = useState(false)

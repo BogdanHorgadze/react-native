@@ -6,12 +6,12 @@ import {
     Modal,
     TextInput,
     Button,
-    ScrollView
+    ScrollView,
+    TouchableWithoutFeedback
 } from 'react-native'
 import {useSelector , useDispatch} from 'react-redux'
-import { Feather } from '@expo/vector-icons'; 
-import {getDataThunk , postDataThunk , message} from '../store/actions/action'
-import { Octicons , AntDesign } from '@expo/vector-icons'; 
+import {getDataThunk , postDataThunk , filterDataThunk, deleteThunk , message} from '../store/actions/action'
+import { Feather, Octicons , AntDesign } from '@expo/vector-icons'; 
 import {useFormik} from 'formik'
 
 function DoctorsPage({ navigation }){
@@ -20,6 +20,7 @@ function DoctorsPage({ navigation }){
     const doctorsData = useSelector(state => state.doctorsReducer.doctorsData)
     const info = useSelector(state => state.doctorsReducer.message)
 
+    const [color,setColor] = useState('white')
     const [modalVisible , setModalVisible] = useState(false)
     const {handleSubmit, handleChange, values} = useFormik({
         initialValues:{
@@ -45,10 +46,34 @@ function DoctorsPage({ navigation }){
     })
 
 
+    const filtered = () => {
+        if(color === 'white'){
+            setColor('red')
+            const filter = doctorsData.sort((a,b)=> {
+                if(a.rate > b.rate){
+                    return -1
+                }
+            })
+            dispatch(filterDataThunk(filter))
+        }
+        else if (color === 'red'){
+            setColor('white')
+            const filter = doctorsData.sort((a,b)=> {
+                if(a.rate < b.rate){
+                    return -1
+                }
+            })
+            dispatch(filterDataThunk(filter))
+        } 
+    }
+    
     useEffect(()=>{
         dispatch(getDataThunk())
-    },[doctorsData])
+    },[])
 
+    const deleteDoctor = (id) => {
+        dispatch(deleteThunk(id))
+    }
 
     const renderDoctors =  () => {
         if(doctorsData.length){
@@ -70,6 +95,13 @@ function DoctorsPage({ navigation }){
                             <View style={{flexDirection:'row',justifyContent:'center'}}><Feather name="navigation" size={17} color="#a3a5a7" /><Text style={{color : '#a3a5a7',marginLeft:5}}>{item.distance}</Text></View>
                             <View style={{flexDirection:'row',justifyContent:'center',marginTop:25}}><AntDesign name="staro" size={17} color="#4ea0c4" /><Text style={{color : '#4ea0c4',marginLeft:5}}>{item.rate}</Text></View>
                         </View>
+                        <AntDesign 
+                            onPress={() => deleteDoctor(item.id)} 
+                            style={{padding:5,position:'absolute',right:5,top:0,zIndex:100}}
+                            name="close"
+                            size={15} 
+                            color="red" 
+                            />  
                     </View>
                 )
             })
@@ -87,7 +119,9 @@ function DoctorsPage({ navigation }){
                     <Text style={{color:'white',fontSize:20}}>Doctor</Text>
                 </View>
                 <View>
-                    <AntDesign name="filter" size={24} color="white" />
+                    <TouchableWithoutFeedback onPress={filtered}>
+                          <AntDesign name="filter" size={24} color={color} />
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
             <ScrollView>
@@ -114,22 +148,20 @@ function DoctorsPage({ navigation }){
                         <Text style={styles.textStyle}>Add Doctor</Text>
                          <View>
                             <TextInput
-                                
                                 placeholder='Name' 
                                 autoCapitalize='none'
                                 style={styles.input}
                                 onChangeText={handleChange('name')}
-                                value={values.name}
+                                
                             />
                          </View>  
                          <View>
                             <TextInput
-                                
                                 placeholder='Profession' 
                                 autoCapitalize='none'
                                 style={styles.input}
                                 onChangeText={handleChange('prof')}
-                                value={values.prof}
+                                
                             />
                          </View>  
                          <View>
@@ -139,7 +171,7 @@ function DoctorsPage({ navigation }){
                                 autoCapitalize='none'
                                 style={styles.input}
                                 onChangeText={handleChange('rate')}
-                                value={values.rate}
+                                
                             />
                          </View>  
                          <Text style={{color: "#4ea0c4",fontWeight: "bold",fontSize:14,marginTop:4, textAlign: "center"}}>{info}</Text>

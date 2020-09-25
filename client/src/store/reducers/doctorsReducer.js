@@ -10,6 +10,11 @@ const doctorsReducer = (state = initialState , action) => {
             ...state,
             doctorsData : action.payload
         }
+        case 'POST_DATA':
+        return{
+            ...state,
+            doctorsData : [...state.doctorsData,action.payload]
+        }
         case 'MESSAGE':
         return {
             ...state,
