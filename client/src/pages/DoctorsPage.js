@@ -7,19 +7,22 @@ import {
     TextInput,
     Button,
     ScrollView,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback, 
+    TouchableOpacity
 } from 'react-native'
 import {useSelector , useDispatch} from 'react-redux'
 import {getDataThunk , postDataThunk , filterDataThunk, deleteThunk , message} from '../store/actions/action'
 import { Feather, Octicons , AntDesign } from '@expo/vector-icons'; 
 import {useFormik} from 'formik'
+import DoctorInfo from '../components/DoctorInfo'
 
 function DoctorsPage({ navigation }){
 
     const dispatch = useDispatch()
     const doctorsData = useSelector(state => state.doctorsReducer.doctorsData)
     const info = useSelector(state => state.doctorsReducer.message)
-
+    const [modalDoctor,setModalDoctor] = useState([])
+    const [visibleDoctor,setVisibleDoctor] = useState(false)
     const [color,setColor] = useState('white')
     const [modalVisible , setModalVisible] = useState(false)
     const {handleSubmit, handleChange, values} = useFormik({
@@ -75,11 +78,16 @@ function DoctorsPage({ navigation }){
         dispatch(deleteThunk(id))
     }
 
+    console.log(visibleDoctor)
+
+
     const renderDoctors =  () => {
         if(doctorsData.length){
             return doctorsData.map((item,i) => {
                 return (
-                    <View style={styles.doctor} key={i}>
+                    <View key={i}> 
+                    <TouchableOpacity onPress={() => {setVisibleDoctor(true); setModalDoctor(item)}}>
+                    <View style={styles.doctor}>
                         <View style={{marginRight:10,marginTop:15}}>
                              <AntDesign name="user" size={34} color="black" />
                         </View>
@@ -94,14 +102,16 @@ function DoctorsPage({ navigation }){
                         <View>
                             <View style={{flexDirection:'row',justifyContent:'center'}}><Feather name="navigation" size={17} color="#a3a5a7" /><Text style={{color : '#a3a5a7',marginLeft:5}}>{item.distance}</Text></View>
                             <View style={{flexDirection:'row',justifyContent:'center',marginTop:25}}><AntDesign name="staro" size={17} color="#4ea0c4" /><Text style={{color : '#4ea0c4',marginLeft:5}}>{item.rate}</Text></View>
-                        </View>
-                        <AntDesign 
+                        </View> 
+                    </View>
+                    </TouchableOpacity>
+                    <AntDesign 
                             onPress={() => deleteDoctor(item.id)} 
                             style={{padding:5,position:'absolute',right:5,top:0,zIndex:100}}
                             name="close"
                             size={15} 
                             color="red" 
-                            />  
+                            /> 
                     </View>
                 )
             })
@@ -124,9 +134,20 @@ function DoctorsPage({ navigation }){
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <ScrollView>
+            <View style={styles.content}>
+                    <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={visibleDoctor}
+                    onRequestClose={()=> setVisibleDoctor(false)}
+                    >  
+                    <View style={{marginTop:60}}>
+                         <DoctorInfo data={modalDoctor}/>
+                    </View>
+                    </Modal>
+                <ScrollView>
                 {renderDoctors()}
-            </ScrollView>
+                </ScrollView>
             <View style={styles.centeredView}>
                 <Modal
                     animationType="slide"
@@ -186,10 +207,13 @@ function DoctorsPage({ navigation }){
                     </View>
                 </Modal>
             </View>
+            </View>
         </View>
-        <View style={styles.button}>
-            <Octicons onPress={()=> setModalVisible(true)} style={{marginLeft:21,marginTop:16}} name="plus" size={24} color="white" />
+        <TouchableOpacity onPress={()=> setModalVisible(true)} style={styles.button}>
+        <View>
+            <Octicons style={{marginLeft:21,marginTop:16}} name="plus" size={24} color="white" />
         </View>
+        </TouchableOpacity>
         </>
     )
 }
@@ -205,6 +229,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#34d7a6',
         justifyContent:'space-between',
         flexDirection:'row',
+        zIndex:9999
     },
     doctor : {
         flexDirection : 'row',
@@ -265,6 +290,9 @@ const styles = StyleSheet.create({
         paddingVertical:10,
         paddingHorizontal:20
     },
+    content : {
+        position:'relative'
+    }
   });
 
 export default DoctorsPage
